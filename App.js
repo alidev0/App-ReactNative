@@ -1,5 +1,10 @@
 import React, {Component} from 'react';
 import {TouchableOpacity, View, Text, TextInput} from 'react-native';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+
+import AAA from './AAA';
+
+import AppNavigator from './appNavigator/AppNavigator';
 
 class ClassName extends Component {
 
@@ -12,16 +17,18 @@ class ClassName extends Component {
       psw = x;
     }
   }
-  
+
+  navigationVar = this.props.navigation;
+
   render() {
+
     return (
       <View style={{flex:1}}>
-      <Text style={{height:'20%', textAlign:'center', textAlignVertical:'center', fontWeight: '700', fontSize:20}}>SomeText</Text>
-      <TextInput style={{height:20, width: '100%', borderWidth: 1, borderRadius: 6, textAlign: 'center', backgroundColor:'white'}}
-    		placeholder={'Nr. i Perdoruesit'}
-    		onChangeText={(x) => this.inputFun(x,0)}/>
-      </View>);
-    }
+        <AppNavigator/>
+      </View>
+
+    );
+  }
 }
 
 export default ClassName;
