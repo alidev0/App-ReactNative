@@ -24,17 +24,23 @@ class LoginScreen extends Component {
       Alert.alert('Plotesoni te gjitha Fushat');
     }else{
         const request = await fetch('http://www.mocky.io/v2/5d921799310000e1ac10cdb6', {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            }
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userName: ''+this.userName,
+            psw: ''+this.psw,
+          }),
         });
 
         jsonAnswer = await request.json();
 
+        console.log(jsonAnswer);;
+
         if(jsonAnswer.data.output){
-          this.navigationVar.navigate('Abc');
+          this.navigationVar.navigate('ListSc');
         }else{
           Alert.alert('Kontrolloni Nr. e perdoruesit dhe fjalekalimin');
         }
