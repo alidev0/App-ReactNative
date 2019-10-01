@@ -22,6 +22,8 @@ class ListScreen extends Component {
       firstRender: true};
   };
 
+  navigationVar = this.props.navigation;
+
   checkLocation = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if(status == 'granted'){
@@ -61,10 +63,12 @@ class ListScreen extends Component {
     dist = dist * 60 * 1.1515;
     dist = dist * 1.609344;
 
-    return dist;
+    return dist.toFixed(3);
   }
 
   getDataFromServer = async () => {
+
+    storeOb = [];
 
     const request = await fetch('http://www.mocky.io/v2/5d90dcfa3000007800cacff6', {
             method: 'GET',
@@ -136,6 +140,21 @@ class ListScreen extends Component {
     }
   }
 
+  mapBtnPressed = (i) =>{
+
+    if(locationCheck){
+
+      this.navigationVar.navigate('MapSc', {
+        'lat1': locationOb.coords.latitude,
+        'lon1': locationOb.coords.longitude,
+        'lat2': storeOb[i].lat,
+        'lon2': storeOb[i].lon,
+        'name': storeOb[i].rruga,
+      })
+
+    }
+  }
+
   render() {
     this.checkLocation();
 
@@ -173,13 +192,14 @@ class ListScreen extends Component {
                 storeOb.map((x, i)=>{
                   return(
                     <View style={{height:60, width:'100%', flexDirection:'row', justifyContent:'space-between',
-                      alignItems:'center', padding:5}}>
+                      alignItems:'center', padding:5}}
+                      key={i}>
 
                       <Text style={{height:'100%', width:'70%', textAlign:'center', textAlignVertical:'center', fontWeight: '500',
                         fontSize:18}}>{"Rruga "+storeOb[i].rruga} {locationCheck ? "("+storeOb[i].distanca+" km)" : ""}</Text>
 
                       <TouchableOpacity
-
+                        onPress={() => this.mapBtnPressed(i)}
                         style={{width:'25%', height:'80%', alignItems: 'center', justifyContent:'center', borderRadius: 6,
                           backgroundColor:'lightgray'}}>
                         <Text style={{height:'100%', width:'100%', textAlign:'center', textAlignVertical:'center',
